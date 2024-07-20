@@ -1,11 +1,40 @@
-$thumbHeight: 40px;
-$scrollbarWidth: 24px;
+$thumbHeight: 60px;
+$scrollbarWidth: 30px;
 $scrollbarThumbSmokeWidth: 28px;
+
+// Миксин анимации машинки ("1" включает эффекты)
+@mixin thumb-scrolling-and-hover($is-working) {
+    @if ($is-working == 1) {
+        // Спереди
+        &::before {
+            content: '';
+            position: absolute;
+            height: $scrollbarThumbSmokeWidth*2;
+            width: 100%;
+            bottom: -$scrollbarThumbSmokeWidth*1.8;
+            background-image: radial-gradient(at 50% 90%, #ffffff, transparent);
+            z-index: 1;
+            filter: blur(4px);
+        }
+        // Сзади
+        &::after {
+            content: '';
+            position: absolute;
+            height: $scrollbarThumbSmokeWidth;
+            width: 100%;
+            top: -$scrollbarThumbSmokeWidth*.8;
+            background-image: radial-gradient(at 50% 90%, #ff0000bc, transparent);
+            z-index: 1;
+            filter: blur(4px);
+            transform: scaleY(-1);
+        }
+    }
+}
 
 body {
     margin: 0;
     overflow: hidden; /* Отключаем стандартный скроллбар */
-    padding-right: $scrollbarWidth;
+    margin-right: $scrollbarWidth;
 
 }
 ::-webkit-scrollbar {
@@ -28,33 +57,28 @@ body {
     width: $scrollbarWidth;
     height: 100vh;
     background-image: url('scrollbar-bg.png');
+    background-size: 100%;
     background-position: center;
-    background-size: contain;
     background-repeat: repeat;
+    box-shadow: 0 0 6px 2px #0000009f;
 
     &__thumb {
         position: absolute;
         top: 0;
         height: $thumbHeight;
         width: 100%;
-        
         background-image: url('scrollbar-thumb.png');
         background-position: center;
-        background-size: 80%;
+        background-size: 90%;
         background-repeat: no-repeat;
+        z-index: 2;
 
         // Состояния полосы прокрутки
+        &:hover,
         &--scrolling {
-            // Дымок за машинкой когда она едет
-            &::before {
-                content: '';
-                transform: scaleY(-1);
-                position: absolute;
-                height: $scrollbarThumbSmokeWidth;
-                width: 100%;
-                top: -$scrollbarThumbSmokeWidth;
-            }
-
+            @include thumb-scrolling-and-hover(0);
+        }
+        &--scrolling {
             &-up {
                 transform: scaleY(-1);
             }
@@ -64,4 +88,3 @@ body {
         }
     }
 }
-

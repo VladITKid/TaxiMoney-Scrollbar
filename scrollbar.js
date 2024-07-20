@@ -1,7 +1,7 @@
 const content = document.getElementById('content');
 const scrollbar = document.querySelector('.scrollbar');
 const thumb = document.querySelector('.scrollbar__thumb');
-const thumbHeight = 40;
+const thumbHeight = 60;
 
 let maxThumbTop = scrollbar.clientHeight - thumbHeight;
 let lastScrollTop = 0;
@@ -11,11 +11,10 @@ function updateThumbPosition() {
     const isScrollable = content.scrollHeight > content.clientHeight;
     if (!isScrollable) {
         thumb.style.top = '0px';
-        thumb.style.pointerEvents = 'none'; // Отключаем "thumb"
-        thumb.classList.remove('scrollbar__thumb--scrolling'); // Убираем класс при отсутствии прокрутки
+        scrollbar.style.display = 'none'; // Скрываем скроллбар
         return;
     } else {
-        thumb.style.pointerEvents = 'auto'; // Включаем "thumb"
+        scrollbar.style.display = 'block'; // Показываем скроллбар
     }
 
     const contentHeight = content.scrollHeight - content.clientHeight;
