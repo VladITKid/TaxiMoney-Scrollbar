@@ -2,34 +2,28 @@ $thumbHeight: 60px;
 $scrollbarWidth: 30px;
 $scrollbarThumbSmokeWidth: 28px;
 
-// Миксин анимации машинки ("1" включает эффекты)
-@mixin thumb-scrolling-and-hover($is-working) {
-    @if ($is-working == 1) {
-        // Спереди
-        &::before {
-            content: '';
-            position: absolute;
-            height: $scrollbarThumbSmokeWidth*2;
-            width: 100%;
-            bottom: -$scrollbarThumbSmokeWidth*1.8;
-            background-image: radial-gradient(at 50% 90%, #ffffff, transparent);
-            z-index: 1;
-            filter: blur(4px);
-        }
-        // Сзади
-        &::after {
-            content: '';
-            position: absolute;
-            height: $scrollbarThumbSmokeWidth;
-            width: 100%;
-            top: -$scrollbarThumbSmokeWidth*.8;
-            background-image: radial-gradient(at 50% 90%, #ff0000bc, transparent);
-            z-index: 1;
-            filter: blur(4px);
-            transform: scaleY(-1);
-        }
+@keyframes back-effect-after {
+    50% {
+        transform: 
+            translateY(-15px)
+            scaleY(.8)
+    }
+    100% {
+        // opacity: 0;
+        transform: 
+            scaleX(.8)
+            translateY(-15px)
     }
 }
+@keyframes back-effect-before {
+    0%, 100% {
+        transform: scale(1.2);
+    }
+    50% {
+        transform: scale(0);
+    }
+}
+
 
 body {
     margin: 0;
@@ -41,7 +35,6 @@ body {
     height: 0;
     width: 0;
 }
-
 
 #content {
     position: relative;
@@ -71,14 +64,33 @@ body {
         background-position: center;
         background-size: 90%;
         background-repeat: no-repeat;
-        z-index: 2;
 
-        // Состояния полосы прокрутки
-        &:hover,
-        &--scrolling {
-            @include thumb-scrolling-and-hover(0);
+        // Эффекты сзади
+        &::before,
+        &::after {
+            content: '';
+            opacity: 0;
+            position: absolute;
+            height: $scrollbarThumbSmokeWidth;
+            top: -$scrollbarThumbSmokeWidth + 10px;
+            background-size: 100%;
+            background-image: url('back-effect.png');
+            width: 100%;
+            background-position: center;
+            background-repeat: repeat;
+            transition: opacity .4s;
         }
+        &::before {animation: back-effect-before .8s linear infinite}
+        &::after {animation: back-effect-after .8s linear infinite}
+        
+        // Состояния полосы прокрутки
         &--scrolling {
+            z-index: 1;
+            &::before,&::after {opacity: 1;}
+            // &::before {animation: back-effect-before .8s linear infinite}
+            // &::after {animation: back-effect-after .8s linear infinite}
+
+            // Направления
             &-up {
                 transform: scaleY(-1);
             }

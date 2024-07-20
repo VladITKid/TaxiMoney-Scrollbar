@@ -95,15 +95,6 @@ document.addEventListener('mousemove', (e) => {
             thumb.classList.remove('scrollbar__thumb--scrolling-down');
         }
 
-        // Добавление класса при скролле
-        thumb.classList.add('scrollbar__thumb--scrolling');
-
-        // Удаление класса через 100мс после скролла
-        clearTimeout(thumb.removeScrollingClassTimeout);
-        thumb.removeScrollingClassTimeout = setTimeout(() => {
-            thumb.classList.remove('scrollbar__thumb--scrolling');
-        }, 100);
-
         lastScrollTop = content.scrollTop;
     }
 });
