@@ -9,7 +9,7 @@ $scrollbarThumbSmokeWidth: 28px;
             scaleY(.8)
     }
     100% {
-        // opacity: 0;
+        opacity: 0;
         transform: 
             scaleX(.8)
             translateY(-15px)
@@ -78,7 +78,7 @@ body {
             width: 100%;
             background-position: center;
             background-repeat: repeat;
-            transition: opacity .4s;
+            transition: opacity .8s;
         }
         &::before {animation: back-effect-before .8s linear infinite}
         &::after {animation: back-effect-after .8s linear infinite}
