@@ -9,7 +9,6 @@ $scrollbarThumbSmokeWidth: 28px;
             scaleY(.8)
     }
     100% {
-        // opacity: 0;
         transform: 
             scaleX(.8)
             translateY(-15px)
@@ -53,7 +52,7 @@ body {
     background-size: 100%;
     background-position: center;
     background-repeat: repeat;
-    box-shadow: 0 0 6px 2px #0000009f;
+    box-shadow: 0 0 6px 3px #324d6595;
 
     &__thumb {
         position: absolute;
@@ -65,38 +64,46 @@ body {
         background-size: 90%;
         background-repeat: no-repeat;
 
-        // Эффекты сзади
+        // Шлейф
         &::before,
         &::after {
             content: '';
             opacity: 0;
             position: absolute;
             height: $scrollbarThumbSmokeWidth;
-            top: -$scrollbarThumbSmokeWidth + 10px;
+            top: -$scrollbarThumbSmokeWidth + 12px;
             background-size: 100%;
             background-image: url('back-effect.png');
             width: 100%;
             background-position: center;
             background-repeat: repeat;
-            transition: opacity .4s;
+            transition: opacity .2s;
         }
+
+        // Свет фар
+        &-lights {
+            opacity: 0;
+            position: absolute;
+            height: 40px;
+            bottom: -$scrollbarThumbSmokeWidth - 2px;
+            background-size: contain;
+            background-image: url('lights.png');
+            width: 100%;
+            background-position: center;
+            background-repeat: no-repeat;
+            transition: opacity .2s;
+        }
+
         &::before {animation: back-effect-before .8s linear infinite}
         &::after {animation: back-effect-after .8s linear infinite}
-        
+
         // Состояния полосы прокрутки
         &--scrolling {
             z-index: 1;
-            &::before,&::after {opacity: 1;}
-            // &::before {animation: back-effect-before .8s linear infinite}
-            // &::after {animation: back-effect-after .8s linear infinite}
-
+            &::before,&::after, .scrollbar__thumb-lights {opacity: 1;}
             // Направления
-            &-up {
-                transform: scaleY(-1);
-            }
-            &-down {
-                transform: scaleY(1);
-            }
+            &-up {transform: scaleY(-1);}
+            &-down {transform: scaleY(1);}
         }
     }
 }
