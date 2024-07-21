@@ -1,4 +1,23 @@
-const content = document.getElementById('content');
+// todo: Добавить разметку кастомного скроллбара
+// Создаём элементы
+const scrollbarElem = document.createElement('div');
+const thumbElem = document.createElement('div');
+const thumbLightsElem = document.createElement('span');
+
+// Устанавливаем классы
+scrollbarElem.className = 'scrollbar';
+thumbElem.className = 'scrollbar__thumb';
+thumbLightsElem.className = 'scrollbar__thumb-lights';
+
+// Строим структуру
+thumbElem.appendChild(thumbLightsElem);
+scrollbarElem.appendChild(thumbElem);
+
+// Вставляем в body
+document.body.appendChild(scrollbarElem);
+
+// todo: Оживить кастомнный скроллбар
+const wrapper = document.querySelector('.wrapper');
 const scrollbar = document.querySelector('.scrollbar');
 const thumb = document.querySelector('.scrollbar__thumb');
 const thumbHeight = 60;
@@ -8,7 +27,7 @@ let lastScrollTop = 0;
 
 // Функция для обновления позиции "thumb"
 function updateThumbPosition() {
-    const isScrollable = content.scrollHeight > content.clientHeight;
+    const isScrollable = wrapper.scrollHeight > wrapper.clientHeight;
     if (!isScrollable) {
         thumb.style.top = '0px';
         scrollbar.style.display = 'none'; // Скрываем скроллбар
@@ -17,16 +36,16 @@ function updateThumbPosition() {
         scrollbar.style.display = 'block'; // Показываем скроллбар
     }
 
-    const contentHeight = content.scrollHeight - content.clientHeight;
-    const scrollFraction = content.scrollTop / contentHeight;
+    const wrapperHeight = wrapper.scrollHeight - wrapper.clientHeight;
+    const scrollFraction = wrapper.scrollTop / wrapperHeight;
     const thumbTop = scrollFraction * maxThumbTop;
     thumb.style.top = `${thumbTop}px`;
 
     // Определение направления скролла
-    if (content.scrollTop > lastScrollTop) {
+    if (wrapper.scrollTop > lastScrollTop) {
         thumb.classList.add('scrollbar__thumb--scrolling-down');
         thumb.classList.remove('scrollbar__thumb--scrolling-up');
-    } else if (content.scrollTop < lastScrollTop) {
+    } else if (wrapper.scrollTop < lastScrollTop) {
         thumb.classList.add('scrollbar__thumb--scrolling-up');
         thumb.classList.remove('scrollbar__thumb--scrolling-down');
     }
@@ -40,11 +59,11 @@ function updateThumbPosition() {
         thumb.classList.remove('scrollbar__thumb--scrolling');
     }, 100);
 
-    lastScrollTop = content.scrollTop;
+    lastScrollTop = wrapper.scrollTop;
 }
 
 // Обновление положения "thumb" при прокрутке и изменении размеров окна
-content.addEventListener('scroll', updateThumbPosition);
+wrapper.addEventListener('scroll', updateThumbPosition);
 window.addEventListener('resize', () => {
     maxThumbTop = scrollbar.clientHeight - thumbHeight; // Пересчитываем границы
     updateThumbPosition();
@@ -58,7 +77,7 @@ let isDragging = false;
 let startY, startTop;
 
 thumb.addEventListener('mousedown', (e) => {
-    const isScrollable = content.scrollHeight > content.clientHeight;
+    const isScrollable = wrapper.scrollHeight > wrapper.clientHeight;
     if (!isScrollable) return;
 
     isDragging = true;
@@ -84,17 +103,17 @@ document.addEventListener('mousemove', (e) => {
         thumb.style.top = `${newTop}px`;
 
         const scrollFraction = newTop / maxThumbTop;
-        content.scrollTop = scrollFraction * (content.scrollHeight - content.clientHeight);
+        wrapper.scrollTop = scrollFraction * (wrapper.scrollHeight - wrapper.clientHeight);
 
         // Обновляем состояние "thumb" при перетаскивании
-        if (content.scrollTop > lastScrollTop) {
+        if (wrapper.scrollTop > lastScrollTop) {
             thumb.classList.add('scrollbar__thumb--scrolling-down');
             thumb.classList.remove('scrollbar__thumb--scrolling-up');
-        } else if (content.scrollTop < lastScrollTop) {
+        } else if (wrapper.scrollTop < lastScrollTop) {
             thumb.classList.add('scrollbar__thumb--scrolling-up');
             thumb.classList.remove('scrollbar__thumb--scrolling-down');
         }
 
-        lastScrollTop = content.scrollTop;
+        lastScrollTop = wrapper.scrollTop;
     }
 });

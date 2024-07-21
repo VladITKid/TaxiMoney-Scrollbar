@@ -1,8 +1,8 @@
 $thumbHeight: 60px;
 $scrollbarWidth: 30px;
-$scrollbarThumbSmokeWidth: 28px;
+$trailWidth: 28px;
 
-@keyframes back-effect-after {
+@keyframes trail-after {
     50% {
         transform: 
             translateY(-15px)
@@ -14,7 +14,7 @@ $scrollbarThumbSmokeWidth: 28px;
             translateY(-15px)
     }
 }
-@keyframes back-effect-before {
+@keyframes trail-before {
     0%, 100% {
         transform: scale(1.2);
     }
@@ -25,9 +25,8 @@ $scrollbarThumbSmokeWidth: 28px;
 
 
 body {
-    margin: 0;
-    overflow: hidden; /* Отключаем стандартный скроллбар */
-    margin-right: $scrollbarWidth;
+    margin: 0 $scrollbarWidth 0 0;
+    overflow: hidden; // Отключаем стандартный скроллбар 
 
 }
 ::-webkit-scrollbar {
@@ -35,11 +34,11 @@ body {
     width: 0;
 }
 
-#content {
+.wrapper {
     position: relative;
     width: 100%;
     height: 100vh;
-    overflow: auto; /* Включаем прокрутку внутри контейнера */
+    overflow: auto; // Включаем прокрутку внутри контейнера 
 }
 
 .scrollbar {
@@ -70,14 +69,15 @@ body {
             content: '';
             opacity: 0;
             position: absolute;
-            height: $scrollbarThumbSmokeWidth;
-            top: -$scrollbarThumbSmokeWidth + 12px;
+            height: $trailWidth;
+            top: -$trailWidth + 12px;
             background-size: 100%;
             background-image: url('back-effect.png');
             width: 100%;
             background-position: center;
             background-repeat: repeat;
             transition: opacity .2s;
+            transition-delay: .2s;
         }
 
         // Свет фар
@@ -85,7 +85,7 @@ body {
             opacity: 0;
             position: absolute;
             height: 40px;
-            bottom: -$scrollbarThumbSmokeWidth - 2px;
+            bottom: -$trailWidth - 2px;
             background-size: contain;
             background-image: url('lights.png');
             width: 100%;
@@ -94,8 +94,8 @@ body {
             transition: opacity .2s;
         }
 
-        &::before {animation: back-effect-before .8s linear infinite}
-        &::after {animation: back-effect-after .8s linear infinite}
+        &::before {animation: trail-before .8s linear infinite}
+        &::after {animation: trail-after .8s linear infinite}
 
         // Состояния полосы прокрутки
         &--scrolling {
