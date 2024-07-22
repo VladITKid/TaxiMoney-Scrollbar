@@ -20,7 +20,8 @@ document.body.appendChild(scrollbarElem);
 const wrapper = document.querySelector('.wrapper');
 const scrollbar = document.querySelector('.scrollbar');
 const thumb = document.querySelector('.scrollbar__thumb');
-const thumbHeight = 60;
+const thumbHeight = 68; 
+thumb.style.height = thumbHeight + "px"; // Задаю высоту прямо здесь, чтобы не дублировать в css
 
 let maxThumbTop = scrollbar.clientHeight - thumbHeight;
 let lastScrollTop = 0;

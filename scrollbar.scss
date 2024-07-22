@@ -1,4 +1,3 @@
-$thumbHeight: 60px;
 $scrollbarWidth: 30px;
 $trailWidth: 28px;
 
@@ -56,7 +55,6 @@ body {
     &__thumb {
         position: absolute;
         top: 0;
-        height: $thumbHeight;
         width: 100%;
         background-image: url('scrollbar-thumb.png');
         background-position: center;
@@ -72,7 +70,7 @@ body {
             height: $trailWidth;
             top: -$trailWidth + 12px;
             background-size: 100%;
-            background-image: url('back-effect.png');
+            background-image: url('scrollbar-trail.png');
             width: 100%;
             background-position: center;
             background-repeat: repeat;
@@ -85,9 +83,9 @@ body {
             opacity: 0;
             position: absolute;
             height: 40px;
-            bottom: -$trailWidth - 2px;
+            bottom: -$trailWidth;
             background-size: contain;
-            background-image: url('lights.png');
+            background-image: url('scrollbar-lights.png');
             width: 100%;
             background-position: center;
             background-repeat: no-repeat;
