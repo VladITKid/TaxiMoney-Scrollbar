@@ -1,7 +1,7 @@
 $scrollbarWidth: 30px;
-$trailWidth: 28px;
+$scrollbarEffectPosition: 28px;
 
-@keyframes trail-after {
+@keyframes scrollbarEffect-after {
     50% {
         transform: 
             translateY(-15px)
@@ -13,7 +13,7 @@ $trailWidth: 28px;
             translateY(-15px)
     }
 }
-@keyframes trail-before {
+@keyframes scrollbarEffect-before {
     0%, 100% {
         transform: scale(1.2);
     }
@@ -22,11 +22,10 @@ $trailWidth: 28px;
     }
 }
 
-
+// Отключаем стандартный скроллбар 
 body {
     margin: 0 $scrollbarWidth 0 0;
-    overflow: hidden; // Отключаем стандартный скроллбар 
-
+    overflow: hidden;
 }
 ::-webkit-scrollbar {
     height: 0;
@@ -41,16 +40,18 @@ body {
 }
 
 .scrollbar {
+    z-index: 1000;
     position: fixed;
     right: 0;
     top: 0;
     width: $scrollbarWidth;
-    height: 100vh;
+    height: 100%;
     background-image: url('scrollbar-bg.png');
     background-size: 100%;
     background-position: center;
     background-repeat: repeat;
     box-shadow: 0 0 6px 3px #324d6595;
+    overflow: hidden;
 
     &__thumb {
         position: absolute;
@@ -67,8 +68,8 @@ body {
             content: '';
             opacity: 0;
             position: absolute;
-            height: $trailWidth;
-            top: -$trailWidth + 12px;
+            height: $scrollbarEffectPosition;
+            top: -$scrollbarEffectPosition + 12px;
             background-size: 100%;
             background-image: url('scrollbar-trail.png');
             width: 100%;
@@ -83,7 +84,7 @@ body {
             opacity: 0;
             position: absolute;
             height: 40px;
-            bottom: -$trailWidth;
+            bottom: -$scrollbarEffectPosition + 2px;
             background-size: contain;
             background-image: url('scrollbar-lights.png');
             width: 100%;
@@ -92,8 +93,8 @@ body {
             transition: opacity .2s;
         }
 
-        &::before {animation: trail-before .8s linear infinite}
-        &::after {animation: trail-after .8s linear infinite}
+        &::before {animation: scrollbarEffect-before .8s linear infinite}
+        &::after {animation: scrollbarEffect-after .8s linear infinite}
 
         // Состояния полосы прокрутки
         &--scrolling {
