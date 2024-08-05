@@ -1,0 +1,103 @@
+/*
+! Можно удалить (внешний вид кнопок)
+*/
+button {
+    font-weight: 600;
+    font-size: 16px;
+    height: 60px;
+    width: 240px;
+    border-radius: 50px;
+    color: #ffffff;
+    background: linear-gradient(180deg, #81B5FF 0%, #4A83DF 100%);
+    text-shadow: 0 1px 2px #28477597;
+    box-shadow: 0 2px 0 0 #31568d;
+    border: none;
+    outline: none !important;
+    cursor: pointer;
+}
+/*
+! А это важные стили
+*/
+$cursor-diameter: 70px;
+$cursor-effect-center: translate(-50%, -50%);
+$cursor-effect-z-index: 1000000;
+
+// * Анимации
+@keyframes cursor-click-effect-money {
+    0%, 100% {
+        background-image: url('cursor-click-effect--money.png');
+        transform: $cursor-effect-center scale(0);
+        opacity: 0;
+    }
+    50% {
+        transform: $cursor-effect-center scale(1);
+        opacity: 1;
+    }
+    60% {
+        transform: $cursor-effect-center scale(.4);
+        opacity: .4;
+    }
+}
+@keyframes cursor-click-effect-screws {
+    0%, 100% {
+        background-image: url('cursor-click-effect--screws.png');
+        transform: $cursor-effect-center scale(0);
+        opacity: 0;
+    }
+    50% {
+        transform: $cursor-effect-center scale(1);
+        opacity: 1;
+    }
+    60% {
+        transform: $cursor-effect-center scale(.4);
+        opacity: .4;
+    }
+}
+@keyframes cursor-click-effect-wheel {
+    0%, 100% {
+        background-image: url('cursor-click-effect--wheel.png');
+    }
+    0% {
+        transform: $cursor-effect-center rotate(360deg);
+    }
+}
+
+html {overflow-x: hidden;}
+.cursor-click-effect {
+    z-index: $cursor-effect-z-index;
+    position: fixed;
+    width: $cursor-diameter;
+    height: $cursor-diameter;
+    transform: $cursor-effect-center;
+    background-position: center;
+    background-size: contain;
+    background-repeat: no-repeat;
+    pointer-events: none;
+    
+    &--active {
+        display: block;
+        &-money {
+            animation: cursor-click-effect-money 1s infinite;
+        }
+        &-screws {
+            animation: cursor-click-effect-screws 1s infinite;
+        }
+        &-wheel {
+            animation: cursor-click-effect-wheel 1s infinite;
+            z-index: inherit;
+            &::after {
+                width: inherit;
+                height: inherit;
+                transform: inherit;
+                z-index: $cursor-effect-z-index+1;
+                animation: cursor-click-effect-wheel 1s infinite;
+            }
+        }
+        &-speedometer {
+            // animation: cursor-click-effect-speedometer 1s infinite;
+        }
+    }
+    &--inactive {
+        display: none;
+    }
+}
