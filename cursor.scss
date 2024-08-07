@@ -20,38 +20,42 @@ button {
 ! А это важные стили
 */
 // * Переменные
-$cursor-diameter: 70px;
+$cursor-diameter: 45px;
 $cursor-effect-center: translate(-50%, -50%);
 $cursor-effect-z-index: 1000000;
 
 // Массив с ключевыми словами эффектов
 $cursorClickEffectNames:
 // Для покупки
-'money',
-'gems',
+'money', // 1
+'gems', // 2
 // Для такси
-'wheel',
-'speedometer',
-'screws',
-'spray',
-'up',
+'wheel', // 3
+'speedometer', // 4
+'teleport', // 5
+'screws', // 6
+'spray', // 7
+'up', // 8
 // Для добычи руды
-'cracks',
-'ore';
+'cracks', // 9
+'ore'; // 10
 
-// * Миксины
+// * ``` Миксины ```
 // Для однотипных анимаций
 @mixin cursor-click-effect-smooth-removing() {
     0%, 100% {opacity: 0;}
     20%, 80% {opacity: 1;}
 }
-@mixin cursor-click-effect-rain() {
+// Для эффекта "дождя"
+@mixin cursor-click-effect-rain($imageIndex) {
+    $imageName: nth($cursorClickEffectNames, $imageIndex);
     0%, 100% {
+        background-image: url('cursor-click-effect--#{$imageName}.png');
         transform: $cursor-effect-center scale(0);
         opacity: 0;
     }
     50% {
-        transform: $cursor-effect-center scale(1);
+        transform: $cursor-effect-center scale(1.4);
         opacity: 1;
     }
     60% {
@@ -63,7 +67,107 @@ $cursorClickEffectNames:
 @mixin cursor-click-effect-animation($effectName) {
     animation: cursor-click-effect-#{$effectName} 1s infinite;
 }
-// Для эффектов клика
+
+// * ``` Анимации ```
+// * Для покупки
+@keyframes cursor-click-effect-money { 
+    @include cursor-click-effect-rain(1);
+}
+@keyframes cursor-click-effect-gems {
+    @include cursor-click-effect-rain(2);
+}
+
+// * Для такси
+@keyframes cursor-click-effect-wheel {
+    @include cursor-click-effect-smooth-removing();
+    0%, 100% {
+        background-image: url('cursor-click-effect--wheel.png');
+    }
+    0% {
+        transform: $cursor-effect-center rotate(-360deg);
+    }
+}
+
+// Три для спидометра
+@keyframes cursor-click-effect-speedometer {
+    @include cursor-click-effect-smooth-removing();
+    0%, 100% {background-image: url('cursor-click-effect--speedometer.png');}
+}
+@keyframes cursor-click-effect-speedometer-1 {
+    0%, 100% {
+        background-image: url('cursor-click-effect--speedometer-string.png');
+        transform: $cursor-effect-center rotate(0deg)
+    }
+    50% {
+        transform: $cursor-effect-center rotate(240deg)
+    }
+}
+@keyframes cursor-click-effect-speedometer-2 {
+    80% {
+        background-image: url('cursor-click-effect--speedometer-energy.png');
+        opacity: 1;
+    }
+    50% {
+        transform: $cursor-effect-center rotate(-1440deg);
+    }
+    0%, 100% {
+        opacity: 0;
+    }
+}
+
+// Две для телепорта
+@keyframes cursor-click-effect-teleport {
+    @include cursor-click-effect-smooth-removing();
+    0%, 100% {background-image: url('cursor-click-effect--teleport-frame.png'); transform: $cursor-effect-center scale(1.2)}
+}
+@keyframes cursor-click-effect-teleport-1 {
+    @include cursor-click-effect-smooth-removing();
+    0%, 100% {
+        background-image: url('cursor-click-effect--teleport.png');
+    }
+    0% {
+        transform: $cursor-effect-center rotate(-360deg);
+    }
+}
+// * Для добычи руды
+
+@keyframes cursor-click-effect-screws {
+    @include cursor-click-effect-rain(6);
+}
+// Две для спрея
+@keyframes cursor-click-effect-spray {
+    @include cursor-click-effect-smooth-removing();
+    0%, 100% {
+        background-image: url('cursor-click-effect--spray-picture.png');
+        transform: $cursor-effect-center scale(1.8);
+    }
+}
+@keyframes cursor-click-effect-spray-1 {
+    0%, 100% {
+        background-image: url('cursor-click-effect--spray.png');
+        transform: $cursor-effect-center rotate(-10deg) translateX(-70%);
+        opacity: 0;
+    }
+    10%, 90% {opacity: 1;}
+    50% {transform: $cursor-effect-center rotate(-10deg) translateX(70%);}
+}
+
+@keyframes cursor-click-effect-up {
+    @include cursor-click-effect-smooth-removing();
+    0%, 100% {background-image: url('cursor-click-effect--up.png');}
+    0% {transform: $cursor-effect-center translateY(50%)}
+}
+
+// * Для добычи руды
+@keyframes cursor-click-effect-cracks {
+    @include cursor-click-effect-smooth-removing();
+    0%, 100% {background-image: url('cursor-click-effect--cracks.png'); transform: $cursor-effect-center scale(1.4)}
+}
+@keyframes cursor-click-effect-ore {
+    @include cursor-click-effect-rain(10);
+}
+
+// * ``` Основной миксин ```
 @mixin cursor-click-effect-basic-styles($z-index-term) {
     z-index: $cursor-effect-z-index+$z-index-term;
     position: fixed;
@@ -74,55 +178,11 @@ $cursorClickEffectNames:
     background-size: contain;
     background-repeat: no-repeat;
     pointer-events: none;
-}
 
-// * Анимации
-// Для покупки
-@keyframes cursor-click-effect-money {
-    @include cursor-click-effect-rain();
-    0%, 100% {background-image: url('cursor-click-effect--money.png');}
+    &--inactive {display: none;}
 }
-@keyframes cursor-click-effect-gems {
-    @include cursor-click-effect-rain();
-    0%, 100% {background-image: url('cursor-click-effect--gems.png');}
-}
-// Для такси
-@keyframes cursor-click-effect-wheel {
-    @include cursor-click-effect-smooth-removing();
-    0%, 100% {
-        background-image: url('cursor-click-effect--wheel.png');
-    }
-    0% {
-        transform: $cursor-effect-center rotate(720deg);
-    }
-}
-@keyframes cursor-click-effect-speedometer {
-    @include cursor-click-effect-smooth-removing();
-    0%, 100% {background-image: url('cursor-click-effect--speedometer.png');}
-}
-@keyframes cursor-click-effect-screws {
-    @include cursor-click-effect-rain();
-    0%, 100% {background-image: url('cursor-click-effect--screws.png');}
-}
-@keyframes cursor-click-effect-up {
-    @include cursor-click-effect-smooth-removing();
-    0%, 100% {background-image: url('cursor-click-effect--up.png');}
-    0% {transform: $cursor-effect-center translateY(50%)}
-}
-// Для добычи руды
-@keyframes cursor-click-effect-ore {
-    @include cursor-click-effect-rain();
-    0%, 100% {background-image: url('cursor-click-effect--ore.png');}
-}
-@keyframes cursor-click-effect-cracks {
-    @include cursor-click-effect-smooth-removing();
-    0%, 100% {background-image: url('cursor-click-effect--cracks.png');}
-}
-
 .cursor-click-effect {
     @include cursor-click-effect-basic-styles(0);
-    
-    // Состояния
     &--active {
         display: block;
         // Создаем селекторы для каждого эффекта из массива
@@ -132,16 +192,35 @@ $cursorClickEffectNames:
             }
         }
     }
-    &--inactive {
-        display: none;
-    }
-
-    // Вспомогательный блок
-    &-part {
+    &-1 {
         @include cursor-click-effect-basic-styles(1);
-
-        &--inactive {
-            display: none;
+        &--active {
+            &-wheel {
+                $cursor-diameter: 70px;
+                width: $cursor-diameter;
+                height: $cursor-diameter;
+                animation: cursor-click-effect-wheel-1 1s infinite;
+            }
+            &-speedometer {
+                animation: cursor-click-effect-speedometer-1 1s infinite;
+            }
+            &-teleport {
+                animation: cursor-click-effect-teleport-1 1s infinite;
+            }
+            &-spray {
+                animation: cursor-click-effect-spray-1 1s infinite;
+            }
+        }
+    }
+    &-2 {
+        @include cursor-click-effect-basic-styles(2);
+        &--active {
+            &-speedometer {
+                $cursor-diameter: 75px;
+                width: $cursor-diameter;
+                height: $cursor-diameter;
+                animation: cursor-click-effect-speedometer-2 1s infinite;
+            }
         }
     }
 }
