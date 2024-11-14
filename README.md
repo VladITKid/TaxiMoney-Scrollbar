@@ -2,6 +2,8 @@
 
 # Taxi on the Road — Custom scrollbar
 
+## Description
+
 Original animated custom scrollbar in the shape of a car that turns on its headlights while scrolling and leaves a trail of banknotes behind. This component enhances the design of the "Taxi-Money" project pages, adding a unique touch to it.
 
 ## Links
