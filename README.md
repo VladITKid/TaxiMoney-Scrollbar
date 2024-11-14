@@ -2,8 +2,7 @@
 
 # Taxi on the Road — Custom scrollbar
 
-- Оригинальный анимированный кастомный скроллбар в форме машинки, во время скролла включающий фары и оставляя за собой шлейф из банкнот.
-- Этот компонент по своему скрашивает дизайн страниц проекта Taxi-Money и добавляет ему большей уникальности.
+Original animated custom scrollbar in the shape of a car that turns on its headlights while scrolling and leaves a trail of banknotes behind. This component enhances the design of the "Taxi-Money" project pages, adding a unique touch to it.
 
 ## Links
 - Demo — https://vladitkid.github.io/TaxiMoney-Scrollbar/
